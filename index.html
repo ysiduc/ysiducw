@@ -24,17 +24,16 @@
     <div class="container">
         <h1>Cau an com ch</h1>
         <button class="btn" onclick="copyAndSend('to an roi')">to an roi</button>
-        <button class="btn" onclick="copyAndSend('roi')">roii</button>
+        <button class="btn" onclick="copyAndSend('roiii')">roi</button>
     </div>
     <script>
-        function copyText(text) {
-            const textArea = document.createElement('textarea');
-            textArea.value = text;
-            document.body.appendChild(textArea);
-            textArea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textArea);
-            //alert(`Đã sao chép: "${text}"`);
+        async function copyText(text) {
+            try {
+                await navigator.clipboard.writeText(text);
+                //alert(`Đã sao chép: "${text}"`);
+            } catch (err) {
+                //alert('Đã xảy ra lỗi khi sao chép văn bản:', err);
+            }
         }
 
         function sendMessage() {
