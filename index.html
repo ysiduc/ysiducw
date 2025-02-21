@@ -16,18 +16,35 @@
             color: white;
             border: none;
             cursor: pointer;
+            margin: 5px;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Cau an com ch</h1>
-        <button class="btn" onclick="sendMessage()">to an roi</button>                <button class="btn" onclick="sendMessage()">roi</button>
+        <button class="btn" onclick="copyAndSend('to an roi')">to an roi</button>
+        <button class="btn" onclick="copyAndSend('roi')">roi</button>
     </div>
     <script>
+        function copyText(text) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            alert(`Đã sao chép: "${text}"`);
+        }
+
         function sendMessage() {
             const fbLink = 'ysiducw'; // Facebook username
             window.open(`https://www.messenger.com/t/${fbLink}`, '_blank');
+        }
+
+        function copyAndSend(text) {
+            copyText(text);
+            sendMessage();
         }
     </script>
 </body>
