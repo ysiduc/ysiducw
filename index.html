@@ -34,12 +34,12 @@
         <h1>Cau an com ch</h1>
         <button class="btn" onclick="copyAndSend('to an roi')">to an roi</button>
         <button class="btn" onclick="copyAndSend('roiii')">roi</button>
-        <button class="btn" onclick="showInputContent()">buhh</button>
+        <button class="btn" onclick="showNewContent()">buhh</button>
     </div>
     <div class="input-content" id="inputContent">
         <textarea id="newText" placeholder="Nhập văn bản..."></textarea>
         <input type="file" id="fileInput" accept="image/*" onchange="previewImage(event)">
-        <button class="btn" onclick="addContent()">Xác nhận</button>
+        <button class="btn" onclick="saveContent()">Xác nhận</button>
         <button class="btn" onclick="hideInputContent()">Quay lại</button>
     </div>
     <div class="new-content" id="newContent">
@@ -48,6 +48,7 @@
             <img id="uploadedImage" alt="Hình ảnh mới">
             <p id="displayText"></p>
         </div>
+        <button class="btn" onclick="showInputContent()">Thêm nội dung</button>
         <button class="btn" onclick="hideNewContent()">Quay lại</button>
     </div>
     <script>
@@ -71,17 +72,17 @@
         }
 
         function showInputContent() {
-            document.getElementById('oldContent').style.display = 'none';
+            document.getElementById('newContent').style.display = 'none';
             document.getElementById('inputContent').style.display = 'block';
         }
 
         function hideInputContent() {
             document.getElementById('inputContent').style.display = 'none';
-            document.getElementById('oldContent').style.display = 'block';
+            document.getElementById('newContent').style.display = 'block';
         }
 
         function showNewContent() {
-            document.getElementById('inputContent').style.display = 'none';
+            document.getElementById('oldContent').style.display = 'none';
             document.getElementById('newContent').style.display = 'block';
         }
 
@@ -95,17 +96,20 @@
             reader.onload = function() {
                 const output = document.getElementById('uploadedImage');
                 output.src = reader.result;
-                localStorage.setItem('uploadedImage', reader.result); // Lưu hình ảnh vào localStorage
             }
             reader.readAsDataURL(event.target.files[0]);
         }
 
-        function addContent() {
+        function saveContent() {
             const newText = document.getElementById('newText').value;
             const displayText = document.getElementById('displayText');
             displayText.textContent = newText;
             localStorage.setItem('newText', newText); // Lưu văn bản vào localStorage
-            showNewContent();
+
+            const uploadedImage = document.getElementById('uploadedImage').src;
+            localStorage.setItem('uploadedImage', uploadedImage); // Lưu hình ảnh vào localStorage
+
+            hideInputContent();
         }
 
         function loadContent() {
@@ -113,7 +117,6 @@
             const savedImage = localStorage.getItem('uploadedImage');
             if (savedText) {
                 document.getElementById('displayText').textContent = savedText;
-                showNewContent(); // Hiển thị nội dung mới khi có nội dung được lưu trữ
             }
             if (savedImage) {
                 document.getElementById('uploadedImage').src = savedImage;
