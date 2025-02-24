@@ -32,6 +32,8 @@
 <body onload="loadContent()">
     <div class="container" id="oldContent">
         <h1>Cau an com ch</h1>
+        <button class="btn" onclick="copyAndSend('to an roi')">to an roi</button>
+        <button class="btn" onclick="copyAndSend('roiii')">roiii</button>
         <button class="btn" onclick="showNewContent()">buhh</button>
     </div>
     <div class="input-content" id="inputContent">
@@ -50,6 +52,25 @@
         <button class="btn" onclick="hideNewContent()">Quay lại</button>
     </div>
     <script>
+        async function copyText(text) {
+            try {
+                await navigator.clipboard.writeText(text);
+                //alert(`Đã sao chép: "${text}"`);
+            } catch (err) {
+                //alert('Đã xảy ra lỗi khi sao chép văn bản:', err);
+            }
+        }
+
+        function sendMessage() {
+            const fbLink = 'ysiducw'; // Tên người dùng Facebook
+            window.location.href = `https://www.messenger.com/t/${fbLink}`;
+        }
+
+        function copyAndSend(text) {
+            copyText(text);
+            sendMessage();
+        }
+
         function showInputContent() {
             document.getElementById('newContent').style.display = 'none';
             document.getElementById('inputContent').style.display = 'block';
