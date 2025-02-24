@@ -27,9 +27,6 @@
             max-width: 100%;
             height: auto;
         }
-        .hidden {
-            display: none;
-        }
     </style>
 </head>
 <body onload="loadContent()">
@@ -116,6 +113,7 @@
             const savedImage = localStorage.getItem('uploadedImage');
             if (savedText) {
                 document.getElementById('displayText').textContent = savedText;
+                showNewContent(); // Hiển thị nội dung mới khi có nội dung được lưu trữ
             }
             if (savedImage) {
                 document.getElementById('uploadedImage').src = savedImage;
