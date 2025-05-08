@@ -2,10 +2,17 @@ from flask import Flask, request, jsonify
 import os
 from backend.firebase_config import get_database
 from flask_cors import CORS
+from imagekitio import ImageKit
 
 app = Flask(__name__)
 db_ref = get_database().child('userList')  # Tham chiếu tới danh sách người dùng trong Firebase
 CORS(app)  # Cho phép tất cả các nguồn truy cập
+# Cấu hình ImageKit từ Environment Variables
+imagekit = ImageKit(
+    private_key=os.getenv("IMAGEKIT_PRIVATE_KEY"),  # Lấy từ biến môi trường
+    public_key=os.getenv("IMAGEKIT_PUBLIC_KEY"),    # Lấy từ biến môi trường
+    url_endpoint=os.getenv("IMAGEKIT_URL_ENDPOINT") # Lấy từ biến môi trường
+)
 # API để lấy danh sách người dùng
 @app.route('/users', methods=['GET'])
 def get_users():
