@@ -7,11 +7,15 @@ firebase_config = os.getenv("FIREBASE_CONFIG")
 if not firebase_config:
     raise ValueError("Biến môi trường FIREBASE_CONFIG chưa được thiết lập!")
 
-cred = credentials.Certificate(json.loads(firebase_config))
+# Chuyển chuỗi JSON thành dictionary
+firebase_config_dict = json.loads(firebase_config)
 
-firebase_admin.initialize_app(cred, {
+# Khởi tạo Firebase Admin SDK
+cred = credentials.Certificate(firebase_config_dict)
+initialize_app(cred, {
     'databaseURL': 'https://buhhhhhhh-default-rtdb.firebaseio.com/'
 })
 
+# Hàm trả về tham chiếu đến database
 def get_database():
     return db.reference()
