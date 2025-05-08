@@ -1,6 +1,6 @@
 import os
 import json
-from firebase_admin import credentials, db
+from firebase_admin import credentials, initialize_app, db  # Import đầy đủ các module cần thiết
 
 # Lấy nội dung JSON từ biến môi trường
 firebase_config = os.getenv("FIREBASE_CONFIG")
