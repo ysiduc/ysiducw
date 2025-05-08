@@ -91,5 +91,32 @@ def check():
     except Exception as e:
         print(f"Lỗi khi xử lý API /check: {e}")
         return jsonify({"error": "Lỗi server"}), 500
+#API để upload ảnh lên ImageKit
+@app.route('/upload', methods=['POST'])
+def upload_image():
+    if 'file' not in request.files:
+        return jsonify({"error": "No file part"}), 400
+
+    file = request.files['file']
+    if file.filename == '':
+        return jsonify({"error": "No selected file"}), 400
+
+    try:
+        # Upload file lên ImageKit
+        upload_response = imagekit.upload_file(
+            file=file,  # File object
+            file_name=file.filename,  # Tên file
+            options={
+                "folder": "/user_uploads/"  # Thư mục trên ImageKit
+            }
+        )
+
+        # Trả về URL của ảnh đã upload
+        return jsonify({
+            "message": "File uploaded successfully",
+            "file_url": upload_response['url']
+        }), 200
+    except Exception as e:
+        return jsonify({"error": f"Failed to upload file: {str(e)}"}), 500
 if __name__ == '__main__':
     app.run(debug=True)
