@@ -114,9 +114,8 @@ def upload_image():
         # Lấy URL của ảnh đã upload
         file_url = upload_response['url']
 
-        # Lưu URL ảnh vào Firebase
-        images_ref = get_database().child('uploadedImages')
-        images_ref.push(file_url)
+        # Thêm URL vào danh sách
+        uploaded_images.append(file_url)
 
         # Trả về URL của ảnh đã upload
         return jsonify({
@@ -126,13 +125,10 @@ def upload_image():
     except Exception as e:
         return jsonify({"error": f"Failed to upload file: {str(e)}"}), 500
 #API để lấy ảnh từ ImageKit
+uploaded_images = []  # Danh sách URL ảnh được upload
+
 @app.route('/images', methods=['GET'])
 def get_images():
-    try:
-        images_ref = get_database().child('uploadedImages')
-        images = images_ref.get() or {}
-        return jsonify(list(images.values())), 200
-    except Exception as e:
-        return jsonify({"error": f"Failed to fetch images: {str(e)}"}), 500
+    return jsonify(uploaded_images), 200
 if __name__ == '__main__':
     app.run(debug=True)
