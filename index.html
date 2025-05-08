@@ -38,8 +38,10 @@
     </div>
     <div class="input-content" id="inputContent">
         <textarea id="newText" placeholder="Nhập văn bản..."></textarea>
-        <input type="file" id="fileInput" accept="image/*" onchange="previewImage(event)">
-        <button class="btn" onclick="saveContent()">Xác nhận</button>
+        <form id="uploadForm">
+            <input type="file" id="fileInput" name="file" accept="image/*">
+            <button type="submit" class="btn">Upload</button>
+        </form>
         <button class="btn" onclick="hideInputContent()">Quay lại</button>
     </div>
     <div class="new-content" id="newContent">
@@ -250,6 +252,37 @@ async function showUserList() {
         })
         .catch(error => console.error('Error:', error));
 }
+document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const fileInput = document.getElementById('fileInput');
+    if (!fileInput.files.length) {
+        alert('Vui lòng chọn một file để upload.');
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append('file', fileInput.files[0]);
+
+    try {
+        const response = await fetch('https://ysiducw.onrender.com/upload', {
+            method: 'POST',
+            body: formData,
+        });
+
+        const result = await response.json();
+        if (response.ok) {
+            alert('Upload thành công!');
+            const uploadedImage = document.getElementById('uploadedImage');
+            uploadedImage.src = result.file_url; // Hiển thị ảnh đã upload
+        } else {
+            alert(result.error || 'Upload thất bại.');
+        }
+    } catch (error) {
+        console.error('Lỗi khi upload ảnh:', error);
+        alert('Đã xảy ra lỗi khi upload ảnh.');
+    }
+});
     </script>
 </body>
 </html>
