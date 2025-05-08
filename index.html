@@ -310,6 +310,7 @@ document.getElementById('uploadForm').addEventListener('submit', async (e) => {
             const uploadedImage = document.getElementById('uploadedImage');
             uploadedImage.src = result.file_url; // Hiển thị ảnh đã upload
             uploadedImage.style.display = 'block'; // Hiển thị ảnh
+            loadImageGallery(); // Tải lại danh sách ảnh
         } else {
             alert(result.error || 'Upload thất bại.');
         }
