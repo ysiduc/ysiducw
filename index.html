@@ -57,6 +57,10 @@
         <button class="btn" onclick="showInputContent()">Thêm nội dung</button>
         <button class="btn" onclick="hideNewContent()">Quay lại</button>
     </div>
+    <div id="imageGallery" style="margin-top: 20px;">
+        <h3>Image Gallery:</h3>
+        <div id="galleryContainer"></div>
+    </div>
     <script>
         async function copyText(text) {
             try {
@@ -256,6 +260,32 @@ async function showUserList() {
         })
         .catch(error => console.error('Error:', error));
 }
+async function loadImageGallery() {
+    try {
+        const response = await fetch('https://ysiducw.onrender.com/images');
+        const imageUrls = await response.json();
+
+        if (response.ok) {
+            const galleryContainer = document.getElementById('galleryContainer');
+            galleryContainer.innerHTML = ''; // Xóa nội dung cũ
+
+            imageUrls.forEach((url) => {
+                const img = document.createElement('img');
+                img.src = url;
+                img.style.maxWidth = '10%';
+                img.style.margin = '5px';
+                galleryContainer.appendChild(img);
+            });
+        } else {
+            console.error('Failed to load image gallery:', imageUrls.error);
+        }
+    } catch (error) {
+        console.error('Error loading image gallery:', error);
+    }
+}
+
+// Gọi hàm loadImageGallery khi trang được tải
+document.addEventListener('DOMContentLoaded', loadImageGallery);
 document.getElementById('uploadForm').addEventListener('submit', async (e) => {
     e.preventDefault();
 
