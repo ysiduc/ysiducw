@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 import os
-from firebase_config import get_database
+from backend.firebase_config import get_database
 from flask_cors import CORS
 
 app = Flask(__name__)
