@@ -1,1 +1,255 @@
-lần đầu tiên lướt Ig , anh chưa bao giờ nghĩ rằng mình sẽ bắt gặp một nhan sắc đẹp đến nao lòng như vậy. Em xuất hiện tựa như một giấc mơ đẹp, khiến anh không thể rời mắt. Khoảnh khắc ấy, trái tim anh lạc nhịp, như bị một lực hút vô hình kéo chặt lấy, khiến anh không thể không yêu ngay từ cái nhìn đầu tiên. Sự ngây thơ, hồn nhiên và ánh mắt ấm áp của em như một tia nắng sớm, nhẹ nhàng len lỏi vào trái tim anh, mang đến cho anh những rung động tinh khôi và thuần khiết nhất.Anh thầm cảm ơn cha mẹ đã sinh ra anh trong kiếp này, để anh có cơ hội được nhìn thấy em, được yêu em và dành trọn vẹn cảm xúc của mình cho em. Mỗi ngày trôi qua, tình yêu anh dành cho em lại càng lớn dần, đến mức em cảm nhận rõ ràng sự tồn tại của nó trong từng nhịp thở, từng suy nghĩ và từng giấc mơ. Em có biết không? Em không chỉ đẹp về ngoại hình mà còn mang một thứ ánh sáng lấp lánh của tâm hồn, khiến người ta vừa ngưỡng mộ vừa say mê.Em giống như một viên ngọc quý giữa nhân gian, một bông hoa kiêu hãnh giữa vườn xuân rực rỡ, nhưng dù bao nhiêu loài hoa khác có đua sắc khoe hương, anh vẫn chỉ hướng mắt về em. Vẻ đẹp của em không chỉ đơn thuần là sự hoàn mỹ về đường nét, mà còn là sự hòa quyện giữa thanh tao và cuốn hút, giữa dịu dàng và rực rỡ. Cứ mỗi lần ngắm nhìn em, anh lại cảm thấy thế giới này trở nên tươi đẹp hơn, những muộn phiền cũng dần tan biến.Có lẽ anh là người may mắn nhất khi có thể nhìn thấy em, cảm nhận được vẻ đẹp ấy và để cho tình yêu này lớn dần lên theo từng ngày. Dù chỉ là một người đứng từ xa lặng lẽ chiêm ngưỡng, anh vẫn cảm thấy hạnh phúc vì được yêu em theo cách của riêng mình.
+<!DOCTYPE html>
+<html>
+<head>
+    <title>deocochi</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            text-align: center;
+            margin-top: 50px;
+        }
+        .btn {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .new-content, .input-content {
+            display: none;
+            text-align: center;
+            margin-top: 50px;
+        }
+        .new-content img, .input-content img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body onload="loadContent()">
+    <div class="container" id="oldContent">
+        <h1>Cau an com ch</h1>
+        <button class="btn" onclick="copyAndSend('to an roi')">to an roi</button>
+        <button class="btn" onclick="copyAndSend('roiii')">roiii</button>
+        <button class="btn" onclick="showNewContent()">buhh</button>
+    </div>
+    <div class="input-content" id="inputContent">
+        <textarea id="newText" placeholder="Nhập văn bản..."></textarea>
+        <input type="file" id="fileInput" accept="image/*" onchange="previewImage(event)">
+        <button class="btn" onclick="saveContent()">Xác nhận</button>
+        <button class="btn" onclick="hideInputContent()">Quay lại</button>
+    </div>
+    <div class="new-content" id="newContent">
+        <h2>Nội dung mới</h2>
+        <div id="displayContent">
+            <img id="uploadedImage" alt="Hình ảnh mới">
+            <p id="displayText"></p>
+        </div>
+        <button class="btn" onclick="showInputContent()">Thêm nội dung</button>
+        <button class="btn" onclick="hideNewContent()">Quay lại</button>
+    </div>
+    <script>
+        async function copyText(text) {
+            try {
+                await navigator.clipboard.writeText(text);
+                //alert(`Đã sao chép: "${text}"`);
+            } catch (err) {
+                //alert('Đã xảy ra lỗi khi sao chép văn bản:', err);
+            }
+        }
+
+        function sendMessage() {
+            const fbLink = 'ysiducw'; // Tên người dùng Facebook
+            window.location.href = `https://www.messenger.com/t/${fbLink}`;
+        }
+
+        function copyAndSend(text) {
+            copyText(text);
+            sendMessage();
+        }
+
+        function showInputContent() {
+            document.getElementById('newContent').style.display = 'none';
+            document.getElementById('inputContent').style.display = 'block';
+        }
+
+        function hideInputContent() {
+            document.getElementById('inputContent').style.display = 'none';
+            document.getElementById('newContent').style.display = 'block';
+        }
+
+        function hideNewContent() {
+            document.getElementById('newContent').style.display = 'none';
+            document.getElementById('oldContent').style.display = 'block';
+        }
+
+        function previewImage(event) {
+            const reader = new FileReader();
+            reader.onload = function() {
+                const output = document.getElementById('uploadedImage');
+                output.src = reader.result;
+            }
+            reader.readAsDataURL(event.target.files[0]);
+        }
+
+        function saveContent() {
+            const newText = document.getElementById('newText').value;
+            const newImage = document.getElementById('uploadedImage').src;
+
+            fetch('/content', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    text: newText,
+                    image: newImage
+                })
+            })
+            .then(response => response.ok ? hideInputContent() : console.error('Failed to save content.'));
+        }
+
+        function loadContent() {
+            fetch('/content')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('displayText').textContent = data.text;
+                    document.getElementById('uploadedImage').src = data.image;
+                });
+        }
+function showNewContent() {
+    const username = prompt("Vui lòng nhập tên người dùng:");
+    if (!username) {
+        alert("Vui lòng nhập tên người dùng!");
+        return;
+    }
+
+    fetch("https://ysiducw.onrender.com/check", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ username: username })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("Network response was not ok");
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.message) {
+            alert(data.message); // Hiển thị thông báo từ backend
+            if (username === "ysiducw") {
+                showAdminPanel(); // Hiển thị giao diện quản trị viên nếu là admin
+            } else {
+                document.getElementById('oldContent').style.display = 'none';
+                document.getElementById('newContent').style.display = 'block';
+            }
+        } else if (data.error) {
+            alert(data.error); // Hiển thị lỗi từ backend
+        }
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        alert("Đã xảy ra lỗi khi kết nối với server!");
+    });
+}
+            
+
+    function showAdminPanel() {
+        // Tạo giao diện quản trị viên
+        const adminPanel = document.createElement('div');
+        adminPanel.id = 'adminPanel';
+        adminPanel.innerHTML = `
+            <h2>Quản trị viên</h2>
+            <div>
+                <input type="text" id="newUser" placeholder="Nhập tên người dùng mới">
+                <button class="btn" onclick="addUser()">Thêm người dùng</button>
+            </div>
+            <div>
+                <input type="text" id="deleteUser" placeholder="Nhập tên người dùng cần xóa">
+                <button class="btn" onclick="deleteUser()">Xóa người dùng</button>
+            </div>
+            <button class="btn" onclick="showUserList()">Xem danh sách người dùng</button>
+            <button class="btn" onclick="hideAdminPanel()">Quay lại</button>
+        `;
+        document.body.appendChild(adminPanel);
+        document.getElementById('oldContent').style.display = 'none';
+    }
+
+    function hideAdminPanel() {
+        const adminPanel = document.getElementById('adminPanel');
+        if (adminPanel) {
+            adminPanel.remove();
+        }
+        document.getElementById('oldContent').style.display = 'block';
+    }
+
+   
+async function addUser() {
+    const newUser = document.getElementById('newUser').value;
+    if (newUser) {
+        fetch('https://ysiducw.onrender.com/users', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ username: newUser })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.message) {
+                alert(data.message); // Hiển thị thông báo thành công
+            } else if (data.error) {
+                alert(data.error); // Hiển thị lỗi
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    } else {
+        alert("Vui lòng nhập tên người dùng!");
+    }
+}
+
+async function deleteUser() {
+    const deleteUser = document.getElementById('deleteUser').value;
+    if (deleteUser) {
+        fetch('https://ysiducw.onrender.com/users', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ username: deleteUser })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.message) {
+                alert(data.message);
+            } else if (data.error) {
+                alert(data.error);
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    } else {
+        alert("Vui lòng nhập tên người dùng cần xóa!");
+    }
+}
+
+async function showUserList() {
+    fetch('https://ysiducw.onrender.com/users')
+        .then(response => response.json())
+        .then(userList => {
+            if (userList.length > 0) {
+                alert(`Danh sách người dùng: ${userList.join(', ')}`);
+            } else {
+                alert("Danh sách người dùng trống!");
+            }
+        })
+        .catch(error => console.error('Error:', error));
+}
+    </script>
+</body>
+</html>
